@@ -1,0 +1,835 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "description": "Gráfico gauge que mide respecto a un máximo y mínimo histórico el último valor recibido de humedad ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 90,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 65
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 8,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true,
+        "text": {
+          "titleSize": 25
+        }
+      },
+      "pluginVersion": "8.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "ANOUPnf7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "\"Variable\"",
+          "rawQuery": true,
+          "rawSql": "select b.\"Medicion\" as value\r\nfrom \"iotHistorico\" b\r\nwhere b.\"Variable\" = 'humedad'and (b.\"Usuario\" = '${__user.login}' or '${__user.login}' = 'admin')\r\norder by b.\"Fecha\" asc",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "\"iotHistorico\"",
+          "timeColumn": "\"Fecha\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Humedad Actual",
+      "transparent": true,
+      "type": "gauge"
+    },
+    {
+      "description": "Gráfico gauge que mide respecto a un máximo y mínimo histórico el último valor recibido de temperatura",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 40,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 20
+              },
+              {
+                "color": "red",
+                "value": 28
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "ANOUPnf7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select b.\"Medicion\" as value\nfrom \"iotHistorico\" b\nwhere b.\"Variable\" = 'temperatura' and (b.\"Usuario\" = '${__user.login}' or '${__user.login}' = 'admin')\norder by b.\"Fecha\" asc\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Temperatura actual",
+      "transparent": true,
+      "type": "gauge"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "Gráfica que muestra el comportamiento de humedad y temperatura a través del tiempo, mostrando las últimas 100 muestras",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 11,
+        "x": 1,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 14,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:373",
+          "alias": "/humedad/",
+          "color": "#ffffff"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "ANOUPnf7z"
+          },
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "\"Variable\"",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__time(\"Fecha\"),\n  \"Variable\" AS metric,\n  \"Medicion\"\nFROM \"iotHistorico\"\nWHERE\n  \"Variable\" = 'humedad' and (\"Usuario\" = '${__user.login}' or '${__user.login}' = 'admin')\nORDER BY \"Fecha\" asc\nlimit 100",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "\"Medicion\""
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "\"iotHistorico\"",
+          "timeColumn": "\"Fecha\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "datatype": "text",
+              "name": "",
+              "params": [
+                "\"Variable\"",
+                "=",
+                "'humedad'"
+              ],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Humedad a través del tiempo",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:340",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:341",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "Gráfica que muestra el comportamiento de humedad y temperatura a través del tiempo, mostrando las últimas 100 muestras",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.3.6",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:490",
+          "alias": "/temperatura/",
+          "color": "#ffffff"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "ANOUPnf7z"
+          },
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "\"Variable\"",
+          "rawQuery": true,
+          "rawSql": "SELECT\n   $__time(\"Fecha\"),\n  \"Variable\" AS metric,\n  \"Medicion\"\nFROM \"iotHistorico\"\nWHERE\n  \"Variable\" = 'temperatura' and (\"Usuario\" = '${__user.login}' or '${__user.login}' = 'admin')\nORDER BY \"Fecha\" asc\nlimit 100\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "\"Medicion\""
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "\"iotHistorico\"",
+          "timeColumn": "\"Fecha\"",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "datatype": "text",
+              "name": "",
+              "params": [
+                "\"Variable\"",
+                "=",
+                "'temperatura'"
+              ],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Temperatura a través del tiempo",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:462",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:463",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "description": "Mapa que permite visualizar la información de los nodos y la humedad\nTamaño representa la cantidad de nodos tomando información en ese punto\nColor representa el valor de la humedad respecto a los máximos y mínimos definidos",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "light-green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 65
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "id": 13,
+      "options": {
+        "basemap": {
+          "config": {},
+          "name": "Layer 0",
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "showLegend": true,
+              "style": {
+                "color": {
+                  "field": "temperatura",
+                  "fixed": "dark-green"
+                },
+                "opacity": 0.4,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "field": "numusuarios",
+                  "fixed": 5,
+                  "max": 15,
+                  "min": 2
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/circle.svg",
+                  "mode": "fixed"
+                },
+                "text": {
+                  "field": "temperatura",
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "textConfig": {
+                  "fontSize": 12,
+                  "offsetX": 15,
+                  "offsetY": 9,
+                  "textAlign": "left",
+                  "textBaseline": "bottom"
+                }
+              }
+            },
+            "location": {
+              "mode": "auto"
+            },
+            "name": "Layer 1",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 4.60971,
+          "lon": -74.08175,
+          "zoom": 6
+        }
+      },
+      "pluginVersion": "8.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "ANOUPnf7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select  c.\"numusuarios\", b.*, ciu.\"lat\" as latitude , ciu.\"lng\" as longitude\r\n\tfrom \"ciudades\" ciu\r\n\tinner join (select avg(iot.\"Medicion\") as temperatura, iot.\"Ciudad\"\r\n\tfrom \"iotHistorico\" iot\r\n\tinner join \"ciudades\" ciu on lower(iot.\"Ciudad\") = lower(ciu.city)\r\n\twhere iot.\"Variable\" = 'humedad'\r\n\tgroup by iot.\"Ciudad\" ) b on ciu.\"city\" = b.\"Ciudad\"\r\n\tinner join (select count(distinct(\"Usuario\")) as numUsuarios, \"Ciudad\" from \"iotHistorico\" group by \"Ciudad\")\r\n\tc on ciu.\"city\" = c.\"Ciudad\"",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Humedad promedio y número de nodos por ciudad",
+      "transparent": true,
+      "type": "geomap"
+    },
+    {
+      "description": "Mapa que permite visualizar la información de los nodos y la temperatura\nTamaño representa la cantidad de nodos tomando información en ese punto\nColor representa el valor de la temperatura respecto a los máximos y mínimos definidos",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "light-green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 20
+              },
+              {
+                "color": "red",
+                "value": 28
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
+      "id": 6,
+      "options": {
+        "basemap": {
+          "config": {},
+          "name": "Layer 0",
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "showLegend": true,
+              "style": {
+                "color": {
+                  "field": "temperatura",
+                  "fixed": "dark-green"
+                },
+                "opacity": 0.4,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "field": "numusuarios",
+                  "fixed": 5,
+                  "max": 15,
+                  "min": 2
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/circle.svg",
+                  "mode": "fixed"
+                },
+                "text": {
+                  "field": "temperatura",
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "textConfig": {
+                  "fontSize": 12,
+                  "offsetX": 15,
+                  "offsetY": 9,
+                  "textAlign": "left",
+                  "textBaseline": "bottom"
+                }
+              }
+            },
+            "location": {
+              "mode": "auto"
+            },
+            "name": "Layer 1",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 4.60971,
+          "lon": -74.08175,
+          "zoom": 6
+        }
+      },
+      "pluginVersion": "8.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "ANOUPnf7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select  c.\"numusuarios\", b.*, ciu.\"lat\" as latitude , ciu.\"lng\" as longitude\r\n\tfrom \"ciudades\" ciu\r\n\tinner join (select avg(iot.\"Medicion\") as temperatura, iot.\"Ciudad\"\r\n\tfrom \"iotHistorico\" iot\r\n\tinner join \"ciudades\" ciu on lower(iot.\"Ciudad\") = lower(ciu.city)\r\n\twhere iot.\"Variable\" = 'temperatura'\r\n\tgroup by iot.\"Ciudad\" ) b on ciu.\"city\" = b.\"Ciudad\"\r\n\tinner join (select count(distinct(\"Usuario\")) as numUsuarios, \"Ciudad\" from \"iotHistorico\" group by \"Ciudad\")\r\n\tc on ciu.\"city\" = c.\"Ciudad\"",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Temperatura promedio y número de nodos por ciudad",
+      "transparent": true,
+      "type": "geomap"
+    },
+    {
+      "description": "Gráfico que muestra la distribución de nodos receptores de información por ciudad",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 7,
+        "y": 25
+      },
+      "id": 12,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "values": []
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^value$/",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "ANOUPnf7z"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "\r\nselect  count(distinct(b.\"Usuario\")) as value, INITCAP(REPLACE(b.\"Ciudad\", '_',' '))\r\nfrom \"iotHistorico\" b\r\ngroup by b.\"Ciudad\"",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Distribución de nodos por ciudad",
+      "transparent": true,
+      "type": "piechart"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 34,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Iot Datos Historicos",
+  "uid": "8FYAsxBnk",
+  "version": 39,
+  "weekStart": ""
+}

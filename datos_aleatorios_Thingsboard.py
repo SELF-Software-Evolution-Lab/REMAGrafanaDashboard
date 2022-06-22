@@ -7,13 +7,12 @@ import csv
 from geopy.geocoders import Nominatim
 from datetime import datetime
 
-ACCESS_TOKEN = 'HIseKlNQFsCCc0zcHK14'  # Token of your device
-ACCESS_TOKEN_2 = 'dapWd3YFZg3jwLgRxCEI'  # Token of your device
-broker = "demo.thingsboard.io"  # host name
+ACCESS_TOKEN = 'bUdxXltNJd9c1NFS8MRV'  # Token of your device
+broker = "thingsboard.cloud"  # host name
 port = 1883  # data listening port
 geolocator = Nominatim(user_agent='myapplication')
-VARIABLE_TEMPERATURE_1 = "temperature"
-VARIABLE_HUMIDITY_2 = "humidity"
+VARIABLE_TEMPERATURE = "temperature"
+VARIABLE_HUMIDITY = "humidity"
 VARIABLE_POSITION = "position"
 client1 = paho.Client("control1")  # create client object
 locations = []
@@ -43,21 +42,17 @@ def readCSV():
             else:
                 location = geolocator.geocode(row[1])
                 if row[3] == 'humedad':
-                    build_payload(location, VARIABLE_HUMIDITY_2, row[4])
+                    build_payload(location, VARIABLE_HUMIDITY, row[4])
                 else:
                     if location not in locations:
                         locations.append(location)
-                    build_payload(location, VARIABLE_TEMPERATURE_1, row[4])
+                    build_payload(location, VARIABLE_TEMPERATURE, row[4])
                     line_count += 1
         print(f'Processed {line_count} lines.')
 
 
 def build_payload(Location_city, Variable_Taken, Value_Variable):
-    # payload = "{ \"%s\": %s, \"latitude\": %s, \"longitude\": %s}" % (
-    #     Variable_Taken, Value_Variable, Location_city.latitude, Location_city.longitude)
-    print(Location_city.latitude, Location_city.longitude)
     payload = "{ \"%s\": %s}" % (Variable_Taken, Value_Variable)
-    print(payload)
     if len(locations) != 0 and Location_city == locations[0]:
         post_request(payload)
 
@@ -67,7 +62,6 @@ def post_request(payload):
     print("Please check LATEST TELEMETRY field of your device")
     print("Return message from the server %s" % (ret))
     print(payload)
-    # time.sleep(5)
 
 
 def main():

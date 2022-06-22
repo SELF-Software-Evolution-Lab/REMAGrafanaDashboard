@@ -4,8 +4,8 @@ import requests
 import csv
 from geopy.geocoders import Nominatim
 
-TOKEN = "BBFF-DwMQ4QAWCOioXUztU8aa7iwEzn98yk"  # Put your TOKEN here
-DEVICE_LABEL = "machine"  # Put your device label here
+TOKEN = ""  # Put your TOKEN here
+DEVICE_LABEL = ""  # Put your device label here
 VARIABLE_TEMPERATURE_1 = "temperature"
 VARIABLE_HUMIDITY_2 = "humidity"
 VARIABLE_POSITION = "position"
